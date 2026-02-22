@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U.Révolâ — Pizzeria Artisanale · Sallanches</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        anthracite: '#121212',
+        creme: '#FDF5E6',
+        toscane: '#722F37',
+        'toscane-light': '#8B3A43',
+        'creme-dim': '#E8DFC8',
+      },
+      fontFamily: {
+        playfair: ['"Playfair Display"', 'serif'],
+        cormorant: ['"Cormorant Garamond"', 'serif'],
+        inter: ['Inter', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blanc: #FAFAF5;
+    --ivoire: #F0EBE0;
+    --ivoire-dim: #D9D0BC;
+    --rouge: #C0392B;
+    --rouge-hover: #A93226;
+    --vert: #2D6A4F;
+    --bois: #6B3F1F;
+    --or: #B8860B;
+    --texte: #1C1008;
+    --texte-soft: #5C4A35;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--blanc);
+    color: var(--texte);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--ivoire); }
+  ::-webkit-scrollbar-thumb { background: var(--rouge); }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 0.5px solid rgba(107, 63, 31, 0.12);
+    padding: 0.4rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    height: 70px;
+    width: auto;
+  }
+
+  .nav-links a {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--texte-soft);
+    text-decoration: none;
+    transition: color 0.3s;
+    margin-left: 2rem;
+  }
+
+  .nav-links a:hover { color: var(--rouge); }
+
+  .nav-links .nav-cta {
+    background: var(--rouge);
+    color: #fff !important;
+    padding: 0.5rem 1.25rem;
+    margin-left: 1.5rem;
+    letter-spacing: 0.1em;
+    transition: background 0.3s;
+  }
+
+  .nav-links .nav-cta:hover { background: var(--rouge-hover); color: #fff; }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    min-height: 700px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('Jacquemarde.png');
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.05);
+    transition: transform 12s ease;
+  }
+
+  .hero-bg.loaded { transform: scale(1); }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(28, 16, 8, 0.92) 0%,
+      rgba(28, 16, 8, 0.55) 40%,
+      rgba(28, 16, 8, 0.1) 70%,
+      transparent 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 3rem 5rem;
+    max-width: 780px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #FFD4C2;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 0.5px;
+    background: #FFD4C2;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: #FAFAF5;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: #E8856A;
+  }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(250, 250, 245, 0.65);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--rouge);
+    color: #FAFAF5;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary:hover { background: var(--rouge-hover); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: transparent;
+    color: #FAFAF5;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border: 0.5px solid rgba(250, 250, 245, 0.35);
+    transition: all 0.3s;
+  }
+
+  .btn-outline:hover {
+    border-color: #E8856A;
+    color: #E8856A;
+  }
+
+  /* btn pour sections claires */
+  .btn-primary-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--rouge);
+    color: #FAFAF5;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .btn-primary-dark:hover { background: var(--rouge-hover); }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+  }
+
+  .scroll-hint span {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(250, 250, 245, 0.35);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .scroll-line {
+    width: 0.5px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, #E8856A);
+    animation: scrollPulse 2s infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* SECTIONS */
+  section { position: relative; }
+
+  /* Section background alternée */
+  .section-alt { background: var(--ivoire); }
+  .section-light { background: var(--blanc); }
+
+  .section-label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rouge);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--rouge);
+    opacity: 0.25;
+    max-width: 60px;
+  }
+
+  h2.serif {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    color: var(--texte);
+    line-height: 1.15;
+  }
+
+  h2.serif em {
+    font-style: italic;
+    color: var(--rouge);
+  }
+
+  /* SIGNATURE PIZZA */
+  .signature-card {
+    position: relative;
+    background: #fff;
+    border: 0.5px solid rgba(192, 57, 43, 0.3);
+    box-shadow: 0 4px 40px rgba(192, 57, 43, 0.06), 0 1px 8px rgba(0,0,0,0.04);
+    padding: 2.5rem;
+    overflow: hidden;
+  }
+
+  .signature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--vert), var(--rouge), var(--or));
+  }
+
+  .signature-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--rouge);
+    color: #FAFAF5;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* PIZZA CARD */
+  .pizza-card {
+    border-top: 0.5px solid rgba(107, 63, 31, 0.12);
+    padding: 1.25rem 0;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: border-color 0.3s;
+    cursor: default;
+  }
+
+  .pizza-card:hover {
+    border-color: rgba(192, 57, 43, 0.3);
+  }
+
+  .pizza-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--texte);
+    margin-bottom: 0.25rem;
+  }
+
+  .pizza-desc {
+    font-size: 0.75rem;
+    color: var(--texte-soft);
+    line-height: 1.5;
+  }
+
+  .pizza-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--rouge);
+    white-space: nowrap;
+    padding-top: 0.15rem;
+    font-weight: 600;
+  }
+
+  /* INFO CARD */
+  .info-card {
+    background: #fff;
+    border: 0.5px solid rgba(107, 63, 31, 0.12);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    padding: 2rem;
+  }
+
+  /* DIVIDER */
+  .ornament {
+    text-align: center;
+    color: var(--rouge);
+    opacity: 0.35;
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    padding: 2.5rem 0;
+    background: var(--blanc);
+  }
+
+  /* PARALLAX RACLETTE SECTION */
+  .event-parallax {
+    position: relative;
+    height: 520px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .event-parallax-bg {
+    position: absolute;
+    inset: -10%;
+    background-image: url('raclette.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: brightness(0.28) saturate(0.7);
+  }
+
+  .event-parallax-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 2rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--texte);
+    border-top: 3px solid var(--rouge);
+    padding: 4rem 2rem 2rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.5s; }
+  .delay-5 { animation-delay: 0.7s; }
+
+  /* HAMBURGER */
+  .nav-burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+    z-index: 101;
+  }
+
+  .nav-burger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--texte);
+    transition: all 0.3s;
+  }
+
+  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* DRAWER MOBILE */
+  .nav-drawer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #fff;
+    z-index: 100;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+
+  .nav-drawer.open { display: flex; }
+
+  .nav-drawer a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--texte);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-drawer a:hover { color: var(--rouge); }
+
+  .nav-drawer .drawer-cta {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--rouge);
+    color: #fff !important;
+    padding: 1rem 2.5rem;
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-burger { display: flex; }
+    .hero-content { padding: 0 1.5rem 4rem; }
+    .signature-card { padding: 1.75rem; }
+    .scroll-hint { display: none; }
+  }
+
+  /* Offset ancres pour nav fixe */
+  #carte, #extras, #contact {
+    scroll-margin-top: 90px;
+  }
+  .map-embed {
+    width: 100%;
+    height: 300px;
+    border: 0.5px solid rgba(107, 63, 31, 0.15);
+    filter: grayscale(60%) contrast(1.05) sepia(10%);
+    transition: filter 0.3s;
+  }
+
+  .map-embed:hover {
+    filter: grayscale(20%) contrast(1.05);
+  }
+
+  /* Bandeau tricolore décoratif */
+  .tricolore {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #009246 33%, #fff 33%, #fff 66%, #CE2B37 66%);
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <img src="logo.jpeg" alt="U.Révolâ" class="nav-logo">
+  <div class="nav-links">
+    <a href="#carte">La Carte</a>
+    <a href="#extras">Infos pratiques</a>
+    <a href="#contact">Nous trouver</a>
+    <a href="#contact" class="nav-cta">Commander →</a>
+  </div>
+  <button class="nav-burger" id="burger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- DRAWER MOBILE -->
+<div class="nav-drawer" id="drawer">
+  <button onclick="toggleMenu()" style="position:absolute;top:1.2rem;right:1.5rem;font-size:1.8rem;background:none;border:none;cursor:pointer;color:var(--texte);line-height:1;">✕</button>
+  <a href="#carte" onclick="toggleMenu()">La Carte</a>
+  <a href="#extras" onclick="toggleMenu()">Infos pratiques</a>
+  <a href="#contact" onclick="toggleMenu()">Nous trouver</a>
+  <a href="#contact" class="drawer-cta" onclick="toggleMenu()">Commander →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg loaded"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag fade-up">Pizzeria Artisanale · Sallanches</div>
+    <h1 class="fade-up delay-1">La pizza comme<br>on l'<em>aime</em> ici.</h1>
+    <p class="hero-sub fade-up delay-2">Des pâtes travaillées à la main, des garnitures qui racontent le terroir alpin. Depuis Saint-Martin-sur-Arve, on vous prépare une table qui compte.</p>
+    <div class="flex gap-4 flex-wrap fade-up delay-3">
+      <a href="#carte" class="btn-primary">Voir la carte →</a>
+      <a href="#contact" class="btn-outline">Nous trouver</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Découvrir</span>
+  </div>
+</section>
+
+<!-- SIGNATURE SECTION -->
+<section class="py-24 px-6 max-w-5xl mx-auto">
+  <div class="grid md:grid-cols-2 gap-16 items-center">
+    <div>
+      <div class="section-label">Notre Spécialité</div>
+      <h2 class="serif mb-6">Une pizza qui porte <em>notre nom.</em></h2>
+      <p class="text-sm leading-relaxed mb-8" style="color: var(--texte-soft);">
+        Quand on crée une pizzeria dans les Alpes, on met tout ce qu'on aime dans une pizza. La U.Révolâ, c'est cette pizza-là : généreuse, locale, inattendue. Crème, tomates fraîches, chèvre des alpages, miel, persillade et poivre de Sichuan. Un équilibre entre douceur et caractère.
+      </p>
+      <a href="#carte" class="btn-primary-dark">Explorer toute la carte →</a>
+    </div>
+
+    <div class="signature-card">
+      <div class="signature-badge">⭐ Spécialité Maison</div>
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <p class="pizza-name" style="font-size:1.4rem; font-weight:700; color:var(--texte);">U.RÉVOLÂ</p>
+          <p class="text-xs mt-1" style="color:var(--texte-soft); letter-spacing:0.1em; opacity:0.6;">SIGNATURE</p>
+        </div>
+        <span class="pizza-price" style="font-size:1.5rem;">13€</span>
+      </div>
+      <div style="width:100%; height: 0.5px; background:rgba(192,57,43,0.15); margin: 1.25rem 0;"></div>
+      <img src="Jacquemarde.png" alt="U.Révolâ Signature" style="width:100%; aspect-ratio:16/9; object-fit:cover; margin-bottom:1.25rem;">
+      <p class="pizza-desc" style="font-size:0.82rem; line-height:1.8;">
+        Crème, tomates, chèvre, miel, persillade, basilic, poivre de Sichuan.
+      </p>
+      <div class="mt-4 pt-4" style="border-top: 0.5px solid rgba(107,63,31,0.1);">
+        <p style="font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--rouge); opacity:0.7;">Le sucré du miel · L'âcreté du chèvre · Le piquant de Sichuan</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORNAMENT -->
+<div class="ornament">— ✦ —</div>
+
+<!-- CARTE SECTION -->
+<section id="carte" class="py-16 px-6 section-alt">
+  <div class="max-w-5xl mx-auto">
+    <div class="section-label">La Carte</div>
+    <h2 class="serif mb-12">Toutes nos <em>créations</em></h2>
+
+    <div class="grid md:grid-cols-2 gap-x-16">
+
+      <!-- COL 1 -->
+      <div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Marguerite</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, olives noires.</p>
+          </div>
+          <span class="pizza-price">9€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Bambino</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, jambon.</p>
+          </div>
+          <span class="pizza-price">5€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Reines</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, origan.</p>
+          </div>
+          <span class="pizza-price">12,50€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Prosciutto</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, duo de jambon (blanc et cru).</p>
+          </div>
+          <span class="pizza-price">12,50€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Royal</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p>
+          </div>
+          <span class="pizza-price">13€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Calzone</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p>
+          </div>
+          <span class="pizza-price">13€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Napolitaine</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, anchois, câpres, tomates du chef, olives noires.</p>
+          </div>
+          <span class="pizza-price">13€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Bolo</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, sauce bolognaise maison, persillade.</p>
+          </div>
+          <span class="pizza-price">13€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Rosa</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, oignon rouge, romarin, pistaches.</p>
+          </div>
+          <span class="pizza-price">13€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Espagnol</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, chorizo fort, poivrons, olives, anchois, oignons.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+      </div>
+
+      <!-- COL 2 -->
+      <div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Forestière</p>
+            <p class="pizza-desc">Crème aux cèpes, mozzarella, émincés de poulet, champignons, poivre 5 baies, persillade.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">4 Fromages</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, chèvre, gorgonzola, reblochon, tomme.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">4 Saisons</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, tomates, artichauts, poivrons, oignons.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Hindi</p>
+            <p class="pizza-desc">Crème épices indienne, mozzarella, poulet curry, oignons, poivrons.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Orientale</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, tomates, merguez, blanc de poulet, poivrons, oignons.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Jacquemarde</p>
+            <p class="pizza-desc">Crème, mozzarella, lardons, pomme de terre, reblochon, oignons.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Voiron</p>
+            <p class="pizza-desc">Sauce tomate, mozzarella, lardons, diots, oignons, tomme.</p>
+          </div>
+          <span class="pizza-price">14€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">Truite</p>
+            <p class="pizza-desc">Crème à l'aneth, mozzarella, truite, tomates.</p>
+          </div>
+          <span class="pizza-price">14,50€</span>
+        </div>
+        <div class="pizza-card" style="border-top: 0.5px solid rgba(192,57,43,0.35); background:rgba(192,57,43,0.04); padding: 1rem 0.5rem; margin: 0 -0.5rem;">
+          <div>
+            <p class="pizza-name" style="color:var(--rouge);">⭐ U.RÉVOLÂ</p>
+            <p class="pizza-desc">Crème, tomates, chèvre, miel, persillade, basilic, poivre de Sichuan.</p>
+          </div>
+          <span class="pizza-price">13€</span>
+        </div>
+        <div class="pizza-card">
+          <div>
+            <p class="pizza-name">L'Indécise</p>
+            <p class="pizza-desc">2 moitiés de pizza au choix parmi la carte.</p>
+          </div>
+          <span class="pizza-price">15€</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXTRAS & INFOS -->
+<section id="extras" class="section-light px-6 pb-16" style="margin-top:2rem;">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-4">
+
+      <div class="info-card flex gap-4 items-start">
+        <span style="font-size:1.6rem; line-height:1;">🍕</span>
+        <div>
+          <p class="text-xs uppercase tracking-widest mb-2" style="color:var(--rouge); letter-spacing:0.2em;">Option Demi-Pizza</p>
+          <p style="font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:600; color:var(--texte); margin-bottom:0.35rem;">7,50€</p>
+          <p style="font-size:0.78rem; color:var(--texte-soft); line-height:1.5;">Toutes nos pizzas sont disponibles en version demi-portion.</p>
+        </div>
+      </div>
+
+      <div class="info-card flex gap-4 items-start">
+        <span style="font-size:1.6rem; line-height:1;">➕</span>
+        <div>
+          <p class="text-xs uppercase tracking-widest mb-2" style="color:var(--rouge); letter-spacing:0.2em;">Supplément</p>
+          <p style="font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:600; color:var(--texte); margin-bottom:0.35rem;">1€ / ingrédient</p>
+          <p style="font-size:0.78rem; color:var(--texte-soft); line-height:1.5;">Personnalisez votre pizza en ajoutant l'ingrédient de votre choix.</p>
+        </div>
+      </div>
+
+      <div class="info-card flex gap-4 items-start">
+        <span style="font-size:1.6rem; line-height:1;">🏠</span>
+        <div>
+          <p class="text-xs uppercase tracking-widest mb-2" style="color:var(--rouge); letter-spacing:0.2em;">Services</p>
+          <p style="font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:600; color:var(--texte); margin-bottom:0.35rem;">Sur place & À emporter</p>
+          <p style="font-size:0.78rem; color:var(--texte-soft); line-height:1.5;">Dégustez chez nous ou emportez votre commande où vous le souhaitez.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CONTACT / FOOTER -->
+<section id="contact" class="py-24 px-6 section-light" style="padding-top:0;">
+  <div class="max-w-5xl mx-auto">
+    <div class="grid md:grid-cols-2 gap-16 items-start">
+      <div>
+        <div class="section-label">Nous Trouver</div>
+        <h2 class="serif mb-8">Venez comme<br>vous <em>êtes.</em></h2>
+
+        <div class="info-card mb-6">
+          <p class="text-xs uppercase tracking-widest mb-3" style="color:var(--rouge); letter-spacing:0.2em;">Adresse</p>
+          <p style="font-family:'Playfair Display',serif; font-size:1.1rem; line-height:1.7; color:var(--texte);">
+            337 Ancienne Route Impériale<br>
+            74700 Sallanches (Saint-Martin-sur-Arve)
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="info-card">
+            <p class="text-xs uppercase tracking-widest mb-2" style="color:var(--rouge); letter-spacing:0.2em;">Déjeuner</p>
+            <p style="font-size:0.85rem; color:var(--texte-soft);">Sur réservation</p>
+          </div>
+          <div class="info-card">
+            <p class="text-xs uppercase tracking-widest mb-2" style="color:var(--rouge); letter-spacing:0.2em;">Dîner</p>
+            <p style="font-size:0.85rem; color:var(--texte-soft);">Tous les soirs</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <iframe
+          class="map-embed"
+          src="https://maps.google.com/maps?q=337+ancienne+route+imperiale+74700+Sallanches&output=embed&hl=fr"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy">
+        </iframe>
+        <div class="mt-4 flex gap-4">
+          <a href="https://maps.google.com/?q=337+ancienne+route+imperiale+74700+Sallanches" target="_blank" class="btn-primary-dark text-center flex-1 justify-center">Itinéraire →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="tricolore mb-10"></div>
+  <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <div>
+      <img src="logo.jpeg" alt="U.Révolâ" style="height:50px;">
+    </div>
+    <p style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(250,250,245,0.3);">
+      © 2026 U.Révolâ · Pizzeria Artisanale · Sallanches
+    </p>
+    <p style="font-size:0.65rem; letter-spacing:0.1em; color:rgba(250,250,245,0.15);">
+      Site par DB Artisan Digital
+    </p>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  function toggleMenu() {
+    const burger = document.getElementById('burger');
+    const drawer = document.getElementById('drawer');
+    burger.classList.toggle('open');
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.pizza-card, .glass-card, .signature-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    observer.observe(el);
+  });
+
+  // Hero parallax
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero-bg');
+    if (hero) {
+      const scrollY = window.scrollY;
+      hero.style.transform = `scale(1.05) translateY(${scrollY * 0.2}px)`;
+    }
+  });
+</script>
+</body>
+</html>
