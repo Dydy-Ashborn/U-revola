@@ -548,6 +548,232 @@ tailwind.config = {
   #carte, #extras, #contact {
     scroll-margin-top: 90px;
   }
+
+  /* ── PANIER ── */
+  .add-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--rouge);
+    color: #fff;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .add-btn:hover { background: var(--rouge-hover); transform: scale(1.1); }
+  .add-btn.added { background: var(--vert); }
+
+  .cart-fab {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 200;
+    background: var(--rouge);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 0.85rem 1.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 8px 32px rgba(192,57,43,0.35);
+    transition: all 0.3s;
+    animation: fabPop 0.3s cubic-bezier(0.175,0.885,0.32,1.275);
+  }
+  .cart-fab:hover { background: var(--rouge-hover); transform: translateY(-2px); }
+  .cart-fab.visible { display: flex; }
+
+  .cart-badge {
+    background: #fff;
+    color: var(--rouge);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  @keyframes fabPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .cart-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: none;
+  }
+  .cart-drawer.open { display: block; }
+
+  .cart-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(28,16,8,0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .cart-panel {
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: min(480px, 100vw);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.12);
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+
+  .cart-header {
+    padding: 1.5rem 1.75rem;
+    border-bottom: 0.5px solid rgba(107,63,31,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .cart-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--texte);
+  }
+  .cart-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--texte-soft);
+    line-height: 1;
+    padding: 4px;
+  }
+  .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.75rem; }
+
+  .cart-item { border-bottom: 0.5px solid rgba(107,63,31,0.1); padding: 1.25rem 0; }
+  .cart-item-top {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 1rem; margin-bottom: 0.75rem;
+  }
+  .cart-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 600; color: var(--texte);
+  }
+  .cart-item-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+  .qty-btn {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 0.5px solid rgba(107,63,31,0.2);
+    background: none; color: var(--texte); font-size: 0.9rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .qty-btn:hover { border-color: var(--rouge); color: var(--rouge); }
+  .qty-val { font-weight: 600; font-size: 0.9rem; min-width: 16px; text-align: center; }
+  .remove-btn {
+    background: none; border: none; color: rgba(107,63,31,0.35);
+    cursor: pointer; font-size: 1rem; padding: 0 4px; transition: color 0.2s;
+  }
+  .remove-btn:hover { color: var(--rouge); }
+
+  .ingredient-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .ing-tag {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    background: var(--ivoire); border: 0.5px solid rgba(107,63,31,0.15);
+    color: var(--texte-soft); font-size: 0.65rem;
+    padding: 0.2rem 0.5rem; border-radius: 50px;
+    cursor: pointer; transition: all 0.2s; user-select: none;
+  }
+  .ing-tag.removed {
+    background: rgba(192,57,43,0.08); border-color: rgba(192,57,43,0.3);
+    color: var(--rouge); text-decoration: line-through; opacity: 0.6;
+  }
+  .ing-tag:hover:not(.removed) { border-color: var(--rouge); color: var(--rouge); }
+  .cart-item-price {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1rem; color: var(--rouge); font-weight: 600;
+    margin-top: 0.5rem; text-align: right;
+  }
+
+  .cart-footer {
+    padding: 1.5rem 1.75rem;
+    border-top: 0.5px solid rgba(107,63,31,0.12);
+    background: var(--blanc); flex-shrink: 0;
+  }
+  .cart-total {
+    display: flex; justify-content: space-between;
+    align-items: baseline; margin-bottom: 1.25rem;
+  }
+  .cart-total span:first-child {
+    font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--texte-soft);
+  }
+  .cart-total-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; color: var(--texte);
+  }
+  .btn-commander {
+    width: 100%; background: var(--rouge); color: #fff; border: none;
+    padding: 1.1rem; font-family: 'Inter', sans-serif;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    transition: background 0.3s;
+  }
+  .btn-commander:hover { background: var(--rouge-hover); }
+
+  .recap-screen {
+    position: fixed; inset: 0; z-index: 400;
+    background: #fff; display: none; flex-direction: column;
+  }
+  .recap-screen.open { display: flex; }
+  .recap-header {
+    background: var(--rouge); color: #fff;
+    padding: 1.5rem 1.75rem;
+    display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+  }
+  .recap-header h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; }
+  .recap-body { flex: 1; overflow-y: auto; padding: 2rem 1.75rem; }
+  .recap-instruction {
+    background: rgba(192,57,43,0.06); border-left: 3px solid var(--rouge);
+    padding: 1rem 1.25rem; margin-bottom: 2rem;
+    font-size: 0.85rem; color: var(--texte); line-height: 1.6;
+  }
+  .recap-pizza { border-bottom: 0.5px solid rgba(107,63,31,0.1); padding: 1rem 0; }
+  .recap-pizza-name {
+    font-family: 'Playfair Display', serif; font-size: 1.05rem;
+    font-weight: 600; color: var(--texte); margin-bottom: 0.3rem;
+  }
+  .recap-pizza-detail { font-size: 0.75rem; color: var(--texte-soft); line-height: 1.5; }
+  .recap-footer { padding: 1.5rem 1.75rem; border-top: 0.5px solid rgba(107,63,31,0.12); flex-shrink: 0; }
+  .btn-call {
+    width: 100%; background: var(--vert); color: #fff; border: none;
+    padding: 1.25rem; font-family: 'Inter', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 0.05em;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+    transition: background 0.3s; margin-bottom: 0.75rem;
+  }
+  .btn-call:hover { background: #235c40; }
+  .btn-back-cart {
+    width: 100%; background: none; border: 0.5px solid rgba(107,63,31,0.2);
+    color: var(--texte-soft); padding: 0.85rem;
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .btn-back-cart:hover { border-color: var(--rouge); color: var(--rouge); }
+
   .map-embed {
     width: 100%;
     height: 300px;
@@ -655,155 +881,102 @@ tailwind.config = {
 <section id="carte" class="py-16 px-6 section-alt">
   <div class="max-w-5xl mx-auto">
     <div class="section-label">La Carte</div>
-    <h2 class="serif mb-12">Toutes nos <em>créations</em></h2>
+    <h2 class="serif mb-4">Toutes nos <em>créations</em></h2>
+    <p style="font-size:0.8rem; color:var(--texte-soft); margin-bottom:3rem;">Appuyez sur <strong style="color:var(--rouge);">+</strong> pour ajouter une pizza à votre commande.</p>
 
     <div class="grid md:grid-cols-2 gap-x-16">
 
       <!-- COL 1 -->
       <div>
-        <div class="pizza-card">
-          <div>
+        <div class="pizza-card" data-name="Marguerite" data-price="9" data-ingredients="Sauce tomate,mozzarella,olives noires">
+          <div style="flex:1;">
             <p class="pizza-name">Marguerite</p>
             <p class="pizza-desc">Sauce tomate, mozzarella, olives noires.</p>
           </div>
-          <span class="pizza-price">9€</span>
-        </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Bambino</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, jambon.</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;">
+            <span class="pizza-price">9€</span>
+            <button class="add-btn" onclick="addToCart(this)">+</button>
           </div>
-          <span class="pizza-price">5€</span>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Reines</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, origan.</p>
-          </div>
-          <span class="pizza-price">12,50€</span>
+        <div class="pizza-card" data-name="Bambino" data-price="5" data-ingredients="Sauce tomate,mozzarella,jambon">
+          <div style="flex:1;"><p class="pizza-name">Bambino</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">5€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Prosciutto</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, duo de jambon (blanc et cru).</p>
-          </div>
-          <span class="pizza-price">12,50€</span>
+        <div class="pizza-card" data-name="Reines" data-price="12.5" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,origan">
+          <div style="flex:1;"><p class="pizza-name">Reines</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, origan.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">12,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Royal</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p>
-          </div>
-          <span class="pizza-price">13€</span>
+        <div class="pizza-card" data-name="Prosciutto" data-price="12.5" data-ingredients="Sauce tomate,mozzarella,jambon blanc,jambon cru">
+          <div style="flex:1;"><p class="pizza-name">Prosciutto</p><p class="pizza-desc">Sauce tomate, mozzarella, duo de jambon (blanc et cru).</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">12,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Calzone</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p>
-          </div>
-          <span class="pizza-price">13€</span>
+        <div class="pizza-card" data-name="Royal" data-price="13" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,œuf">
+          <div style="flex:1;"><p class="pizza-name">Royal</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Napolitaine</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, anchois, câpres, tomates du chef, olives noires.</p>
-          </div>
-          <span class="pizza-price">13€</span>
+        <div class="pizza-card" data-name="Calzone" data-price="13" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,œuf">
+          <div style="flex:1;"><p class="pizza-name">Calzone</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Bolo</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, sauce bolognaise maison, persillade.</p>
-          </div>
-          <span class="pizza-price">13€</span>
+        <div class="pizza-card" data-name="Napolitaine" data-price="13" data-ingredients="Sauce tomate,mozzarella,anchois,câpres,tomates du chef,olives noires">
+          <div style="flex:1;"><p class="pizza-name">Napolitaine</p><p class="pizza-desc">Sauce tomate, mozzarella, anchois, câpres, tomates du chef, olives noires.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Rosa</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, oignon rouge, romarin, pistaches.</p>
-          </div>
-          <span class="pizza-price">13€</span>
+        <div class="pizza-card" data-name="Bolo" data-price="13" data-ingredients="Sauce tomate,mozzarella,sauce bolognaise maison,persillade">
+          <div style="flex:1;"><p class="pizza-name">Bolo</p><p class="pizza-desc">Sauce tomate, mozzarella, sauce bolognaise maison, persillade.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Espagnol</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, chorizo fort, poivrons, olives, anchois, oignons.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="Rosa" data-price="13" data-ingredients="Sauce tomate,mozzarella,oignon rouge,romarin,pistaches">
+          <div style="flex:1;"><p class="pizza-name">Rosa</p><p class="pizza-desc">Sauce tomate, mozzarella, oignon rouge, romarin, pistaches.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+        </div>
+        <div class="pizza-card" data-name="Espagnol" data-price="14" data-ingredients="Sauce tomate,mozzarella,chorizo fort,poivrons,olives,anchois,oignons">
+          <div style="flex:1;"><p class="pizza-name">Espagnol</p><p class="pizza-desc">Sauce tomate, mozzarella, chorizo fort, poivrons, olives, anchois, oignons.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
       </div>
 
       <!-- COL 2 -->
       <div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Forestière</p>
-            <p class="pizza-desc">Crème aux cèpes, mozzarella, émincés de poulet, champignons, poivre 5 baies, persillade.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="Forestière" data-price="14" data-ingredients="Crème aux cèpes,mozzarella,émincés de poulet,champignons,poivre 5 baies,persillade">
+          <div style="flex:1;"><p class="pizza-name">Forestière</p><p class="pizza-desc">Crème aux cèpes, mozzarella, émincés de poulet, champignons, poivre 5 baies, persillade.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">4 Fromages</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, chèvre, gorgonzola, reblochon, tomme.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="4 Fromages" data-price="14" data-ingredients="Sauce tomate,mozzarella,chèvre,gorgonzola,reblochon,tomme">
+          <div style="flex:1;"><p class="pizza-name">4 Fromages</p><p class="pizza-desc">Sauce tomate, mozzarella, chèvre, gorgonzola, reblochon, tomme.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">4 Saisons</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, tomates, artichauts, poivrons, oignons.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="4 Saisons" data-price="14" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,tomates,artichauts,poivrons,oignons">
+          <div style="flex:1;"><p class="pizza-name">4 Saisons</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, tomates, artichauts, poivrons, oignons.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Hindi</p>
-            <p class="pizza-desc">Crème épices indienne, mozzarella, poulet curry, oignons, poivrons.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="Hindi" data-price="14" data-ingredients="Crème épices indienne,mozzarella,poulet curry,oignons,poivrons">
+          <div style="flex:1;"><p class="pizza-name">Hindi</p><p class="pizza-desc">Crème épices indienne, mozzarella, poulet curry, oignons, poivrons.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Orientale</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, tomates, merguez, blanc de poulet, poivrons, oignons.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="Orientale" data-price="14" data-ingredients="Sauce tomate,mozzarella,tomates,merguez,blanc de poulet,poivrons,oignons">
+          <div style="flex:1;"><p class="pizza-name">Orientale</p><p class="pizza-desc">Sauce tomate, mozzarella, tomates, merguez, blanc de poulet, poivrons, oignons.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Jacquemarde</p>
-            <p class="pizza-desc">Crème, mozzarella, lardons, pomme de terre, reblochon, oignons.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="Jacquemarde" data-price="14" data-ingredients="Crème,mozzarella,lardons,pomme de terre,reblochon,oignons">
+          <div style="flex:1;"><p class="pizza-name">Jacquemarde</p><p class="pizza-desc">Crème, mozzarella, lardons, pomme de terre, reblochon, oignons.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Voiron</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, lardons, diots, oignons, tomme.</p>
-          </div>
-          <span class="pizza-price">14€</span>
+        <div class="pizza-card" data-name="Voiron" data-price="14" data-ingredients="Sauce tomate,mozzarella,lardons,diots,oignons,tomme">
+          <div style="flex:1;"><p class="pizza-name">Voiron</p><p class="pizza-desc">Sauce tomate, mozzarella, lardons, diots, oignons, tomme.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">Truite</p>
-            <p class="pizza-desc">Crème à l'aneth, mozzarella, truite, tomates.</p>
-          </div>
-          <span class="pizza-price">14,50€</span>
+        <div class="pizza-card" data-name="Truite" data-price="14.5" data-ingredients="Crème à l'aneth,mozzarella,truite,tomates">
+          <div style="flex:1;"><p class="pizza-name">Truite</p><p class="pizza-desc">Crème à l'aneth, mozzarella, truite, tomates.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card" style="border-top: 0.5px solid rgba(192,57,43,0.35); background:rgba(192,57,43,0.04); padding: 1rem 0.5rem; margin: 0 -0.5rem;">
-          <div>
-            <p class="pizza-name" style="color:var(--rouge);">⭐ U.RÉVOLÂ</p>
-            <p class="pizza-desc">Crème, tomates, chèvre, miel, persillade, basilic, poivre de Sichuan.</p>
-          </div>
-          <span class="pizza-price">13€</span>
+        <div class="pizza-card" data-name="U.RÉVOLÂ" data-price="13" data-ingredients="Crème,tomates,chèvre,miel,persillade,basilic,poivre de Sichuan" style="border-top: 0.5px solid rgba(192,57,43,0.35); background:rgba(192,57,43,0.04); padding: 1rem 0.5rem; margin: 0 -0.5rem;">
+          <div style="flex:1;"><p class="pizza-name" style="color:var(--rouge);">⭐ U.RÉVOLÂ</p><p class="pizza-desc">Crème, tomates, chèvre, miel, persillade, basilic, poivre de Sichuan.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
-        <div class="pizza-card">
-          <div>
-            <p class="pizza-name">L'Indécise</p>
-            <p class="pizza-desc">2 moitiés de pizza au choix parmi la carte.</p>
-          </div>
-          <span class="pizza-price">15€</span>
+        <div class="pizza-card" data-name="L'Indécise" data-price="15" data-ingredients="2 moitiés au choix">
+          <div style="flex:1;"><p class="pizza-name">L'Indécise</p><p class="pizza-desc">2 moitiés de pizza au choix parmi la carte.</p></div>
+          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">15€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
         </div>
       </div>
 
@@ -893,6 +1066,60 @@ tailwind.config = {
   </div>
 </section>
 
+<!-- BOUTON FLOTTANT PANIER -->
+<button class="cart-fab" id="cartFab" onclick="openCart()">
+  🛒 Ma commande
+  <span class="cart-badge" id="cartBadge">0</span>
+</button>
+
+<!-- DRAWER PANIER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-overlay" onclick="closeCart()"></div>
+  <div class="cart-panel">
+    <div class="cart-header">
+      <h3>🛒 Ma commande</h3>
+      <button class="cart-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p style="text-align:center;color:var(--texte-soft);padding:3rem 1rem;font-size:0.85rem;">Votre panier est vide.<br>Ajoutez des pizzas depuis la carte !</p>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total estimé</span>
+        <span class="cart-total-price" id="cartTotal">0€</span>
+      </div>
+      <button class="btn-commander" onclick="openRecap()">
+        📋 Voir le récapitulatif →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ÉCRAN RÉCAP COMMANDE -->
+<div class="recap-screen" id="recapScreen">
+  <div class="recap-header">
+    <h3>📋 Récapitulatif de commande</h3>
+    <button onclick="closeRecap()" style="background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;line-height:1;">✕</button>
+  </div>
+  <div class="recap-body">
+    <div class="recap-instruction">
+      <strong>Comment commander ?</strong><br>
+      Lisez ce récapitulatif à voix haute lors de votre appel. Précisez bien les ingrédients retirés et si vous souhaitez manger sur place ou emporter.
+    </div>
+    <div id="recapList"></div>
+    <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:0.5px solid rgba(107,63,31,0.1);display:flex;justify-content:space-between;align-items:baseline;">
+      <span style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--texte-soft);">Total estimé</span>
+      <span style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--texte);" id="recapTotal">0€</span>
+    </div>
+  </div>
+  <div class="recap-footer">
+    <a href="tel:0955589926" class="btn-call">
+      📞 Appeler le 09 55 58 99 26
+    </a>
+    <button class="btn-back-cart" onclick="closeRecap()">← Modifier ma commande</button>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="tricolore mb-10"></div>
@@ -910,6 +1137,134 @@ tailwind.config = {
 </footer>
 
 <script>
+  // ── PANIER ──
+  let cart = []; // [{id, name, price, ingredients: [{name, removed}], qty}]
+
+  function addToCart(btn) {
+    const card = btn.closest('.pizza-card');
+    const name = card.dataset.name;
+    const price = parseFloat(card.dataset.price);
+    const ingredients = card.dataset.ingredients.split(',').map(i => ({ name: i.trim(), removed: false }));
+
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ id: Date.now(), name, price, ingredients: JSON.parse(JSON.stringify(ingredients)), qty: 1 });
+    }
+
+    btn.textContent = '✓';
+    btn.classList.add('added');
+    setTimeout(() => { btn.textContent = '+'; btn.classList.remove('added'); }, 1000);
+
+    updateFab();
+    renderCart();
+  }
+
+  function updateFab() {
+    const fab = document.getElementById('cartFab');
+    const badge = document.getElementById('cartBadge');
+    const total = cart.reduce((s, i) => s + i.qty, 0);
+    badge.textContent = total;
+    fab.classList.toggle('visible', total > 0);
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    if (cart.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:var(--texte-soft);padding:3rem 1rem;font-size:0.85rem;">Votre panier est vide.<br>Ajoutez des pizzas depuis la carte !</p>';
+      document.getElementById('cartTotal').textContent = '0€';
+      return;
+    }
+
+    let total = 0;
+    container.innerHTML = cart.map((item, idx) => {
+      const itemTotal = item.price * item.qty;
+      total += itemTotal;
+      const ingTags = item.ingredients.map((ing, iIdx) =>
+        `<span class="ing-tag ${ing.removed ? 'removed' : ''}" onclick="toggleIng(${idx}, ${iIdx})">
+          ${ing.removed ? '✕ ' : ''}${ing.name}
+        </span>`
+      ).join('');
+
+      const priceStr = Number.isInteger(item.price) ? item.price + '€' : item.price.toFixed(2).replace('.', ',') + '€';
+
+      return `<div class="cart-item">
+        <div class="cart-item-top">
+          <span class="cart-item-name">${item.name}</span>
+          <div class="cart-item-actions">
+            <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+            <span class="qty-val">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+            <button class="remove-btn" onclick="removeItem(${idx})">🗑</button>
+          </div>
+        </div>
+        <div style="font-size:0.65rem;color:var(--texte-soft);margin-bottom:0.5rem;letter-spacing:0.08em;">RETIRER UN INGRÉDIENT :</div>
+        <div class="ingredient-tags">${ingTags}</div>
+        <p class="cart-item-price">${priceStr} × ${item.qty} = ${(itemTotal % 1 === 0 ? itemTotal : itemTotal.toFixed(2).replace('.', ',')).toString()}€</p>
+      </div>`;
+    }).join('');
+
+    document.getElementById('cartTotal').textContent = (total % 1 === 0 ? total : total.toFixed(2).replace('.', ',')) + '€';
+  }
+
+  function toggleIng(itemIdx, ingIdx) {
+    cart[itemIdx].ingredients[ingIdx].removed = !cart[itemIdx].ingredients[ingIdx].removed;
+    renderCart();
+  }
+
+  function changeQty(idx, delta) {
+    cart[idx].qty += delta;
+    if (cart[idx].qty <= 0) cart.splice(idx, 1);
+    updateFab();
+    renderCart();
+  }
+
+  function removeItem(idx) {
+    cart.splice(idx, 1);
+    updateFab();
+    renderCart();
+  }
+
+  function openCart() {
+    document.getElementById('cartDrawer').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCart() {
+    document.getElementById('cartDrawer').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openRecap() {
+    closeCart();
+    const list = document.getElementById('recapList');
+    let total = 0;
+
+    list.innerHTML = cart.map(item => {
+      const itemTotal = item.price * item.qty;
+      total += itemTotal;
+      const removed = item.ingredients.filter(i => i.removed).map(i => i.name);
+      const kept = item.ingredients.filter(i => !i.removed).map(i => i.name);
+      const priceStr = (item.price % 1 === 0 ? item.price : item.price.toFixed(2).replace('.', ',')) + '€';
+
+      return `<div class="recap-pizza">
+        <p class="recap-pizza-name">${item.qty > 1 ? `${item.qty}×` : ''} ${item.name} — ${priceStr}/pièce</p>
+        <p class="recap-pizza-detail">✅ Avec : ${kept.join(', ') || '—'}</p>
+        ${removed.length ? `<p class="recap-pizza-detail" style="color:var(--rouge);">❌ Sans : ${removed.join(', ')}</p>` : ''}
+      </div>`;
+    }).join('');
+
+    document.getElementById('recapTotal').textContent = (total % 1 === 0 ? total : total.toFixed(2).replace('.', ',')) + '€';
+    document.getElementById('recapScreen').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeRecap() {
+    document.getElementById('recapScreen').classList.remove('open');
+    openCart();
+  }
+
   // Mobile menu
   function toggleMenu() {
     const burger = document.getElementById('burger');
