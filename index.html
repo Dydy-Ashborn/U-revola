@@ -7,6 +7,8 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/jpeg" href="logo.jpeg">
+<link rel="apple-touch-icon" href="logo.jpeg">
 <script>
 tailwind.config = {
   theme: {
@@ -128,8 +130,8 @@ tailwind.config = {
     background-image: url('Jacquemarde.png');
     background-size: cover;
     background-position: center;
-    transform: scale(1.05);
-    transition: transform 12s ease;
+    transform: scale(1);
+    transition: none;
   }
 
   .hero-bg.loaded { transform: scale(1); }
@@ -549,6 +551,42 @@ tailwind.config = {
     scroll-margin-top: 90px;
   }
 
+  /* ── MENU TABS ── */
+  .menu-tab {
+    background: none;
+    border: 0.5px solid rgba(107,63,31,0.2);
+    color: var(--texte-soft);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .menu-tab:hover { border-color: var(--rouge); color: var(--rouge); }
+  .menu-tab.active {
+    background: var(--rouge);
+    border-color: var(--rouge);
+    color: #fff;
+  }
+
+  .menu-section { display: block; }
+  .menu-section.hidden { display: none; }
+
+  .menu-simple-card {
+    border-top: 0.5px solid rgba(107,63,31,0.1);
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: border-color 0.3s;
+  }
+  .menu-simple-card:hover { border-color: rgba(192,57,43,0.25); }
+
   /* ── PANIER ── */
   .add-btn {
     width: 32px; height: 32px;
@@ -877,112 +915,158 @@ tailwind.config = {
 <!-- ORNAMENT -->
 <div class="ornament">— ✦ —</div>
 
-<!-- CARTE SECTION -->
-<section id="carte" class="py-16 px-6 section-alt">
+<!-- AUTRES SECTIONS MENU -->
+<section id="carte" class="py-16 px-6 section-light" style="scroll-margin-top:90px;">
   <div class="max-w-5xl mx-auto">
+
     <div class="section-label">La Carte</div>
-    <h2 class="serif mb-4">Toutes nos <em>créations</em></h2>
-    <p style="font-size:0.8rem; color:var(--texte-soft); margin-bottom:3rem;">Appuyez sur <strong style="color:var(--rouge);">+</strong> pour ajouter une pizza à votre commande.</p>
+    <h2 class="serif mb-4">Toute la <em>carte</em></h2>
+    <p style="font-size:0.8rem; color:var(--texte-soft); margin-bottom:2rem;">Appuyez sur <strong style="color:var(--rouge);">+</strong> pour ajouter un plat à votre commande.</p>
 
-    <div class="grid md:grid-cols-2 gap-x-16">
-
-      <!-- COL 1 -->
-      <div>
-        <div class="pizza-card" data-name="Marguerite" data-price="9" data-ingredients="Sauce tomate,mozzarella,olives noires">
-          <div style="flex:1;">
-            <p class="pizza-name">Marguerite</p>
-            <p class="pizza-desc">Sauce tomate, mozzarella, olives noires.</p>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;">
-            <span class="pizza-price">9€</span>
-            <button class="add-btn" onclick="addToCart(this)">+</button>
-          </div>
-        </div>
-        <div class="pizza-card" data-name="Bambino" data-price="5" data-ingredients="Sauce tomate,mozzarella,jambon">
-          <div style="flex:1;"><p class="pizza-name">Bambino</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">5€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Reines" data-price="12.5" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,origan">
-          <div style="flex:1;"><p class="pizza-name">Reines</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, origan.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">12,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Prosciutto" data-price="12.5" data-ingredients="Sauce tomate,mozzarella,jambon blanc,jambon cru">
-          <div style="flex:1;"><p class="pizza-name">Prosciutto</p><p class="pizza-desc">Sauce tomate, mozzarella, duo de jambon (blanc et cru).</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">12,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Royal" data-price="13" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,œuf">
-          <div style="flex:1;"><p class="pizza-name">Royal</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Calzone" data-price="13" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,œuf">
-          <div style="flex:1;"><p class="pizza-name">Calzone</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Napolitaine" data-price="13" data-ingredients="Sauce tomate,mozzarella,anchois,câpres,tomates du chef,olives noires">
-          <div style="flex:1;"><p class="pizza-name">Napolitaine</p><p class="pizza-desc">Sauce tomate, mozzarella, anchois, câpres, tomates du chef, olives noires.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Bolo" data-price="13" data-ingredients="Sauce tomate,mozzarella,sauce bolognaise maison,persillade">
-          <div style="flex:1;"><p class="pizza-name">Bolo</p><p class="pizza-desc">Sauce tomate, mozzarella, sauce bolognaise maison, persillade.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Rosa" data-price="13" data-ingredients="Sauce tomate,mozzarella,oignon rouge,romarin,pistaches">
-          <div style="flex:1;"><p class="pizza-name">Rosa</p><p class="pizza-desc">Sauce tomate, mozzarella, oignon rouge, romarin, pistaches.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Espagnol" data-price="14" data-ingredients="Sauce tomate,mozzarella,chorizo fort,poivrons,olives,anchois,oignons">
-          <div style="flex:1;"><p class="pizza-name">Espagnol</p><p class="pizza-desc">Sauce tomate, mozzarella, chorizo fort, poivrons, olives, anchois, oignons.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-      </div>
-
-      <!-- COL 2 -->
-      <div>
-        <div class="pizza-card" data-name="Forestière" data-price="14" data-ingredients="Crème aux cèpes,mozzarella,émincés de poulet,champignons,poivre 5 baies,persillade">
-          <div style="flex:1;"><p class="pizza-name">Forestière</p><p class="pizza-desc">Crème aux cèpes, mozzarella, émincés de poulet, champignons, poivre 5 baies, persillade.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="4 Fromages" data-price="14" data-ingredients="Sauce tomate,mozzarella,chèvre,gorgonzola,reblochon,tomme">
-          <div style="flex:1;"><p class="pizza-name">4 Fromages</p><p class="pizza-desc">Sauce tomate, mozzarella, chèvre, gorgonzola, reblochon, tomme.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="4 Saisons" data-price="14" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,tomates,artichauts,poivrons,oignons">
-          <div style="flex:1;"><p class="pizza-name">4 Saisons</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, tomates, artichauts, poivrons, oignons.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Hindi" data-price="14" data-ingredients="Crème épices indienne,mozzarella,poulet curry,oignons,poivrons">
-          <div style="flex:1;"><p class="pizza-name">Hindi</p><p class="pizza-desc">Crème épices indienne, mozzarella, poulet curry, oignons, poivrons.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Orientale" data-price="14" data-ingredients="Sauce tomate,mozzarella,tomates,merguez,blanc de poulet,poivrons,oignons">
-          <div style="flex:1;"><p class="pizza-name">Orientale</p><p class="pizza-desc">Sauce tomate, mozzarella, tomates, merguez, blanc de poulet, poivrons, oignons.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Jacquemarde" data-price="14" data-ingredients="Crème,mozzarella,lardons,pomme de terre,reblochon,oignons">
-          <div style="flex:1;"><p class="pizza-name">Jacquemarde</p><p class="pizza-desc">Crème, mozzarella, lardons, pomme de terre, reblochon, oignons.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Voiron" data-price="14" data-ingredients="Sauce tomate,mozzarella,lardons,diots,oignons,tomme">
-          <div style="flex:1;"><p class="pizza-name">Voiron</p><p class="pizza-desc">Sauce tomate, mozzarella, lardons, diots, oignons, tomme.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="Truite" data-price="14.5" data-ingredients="Crème à l'aneth,mozzarella,truite,tomates">
-          <div style="flex:1;"><p class="pizza-name">Truite</p><p class="pizza-desc">Crème à l'aneth, mozzarella, truite, tomates.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="U.RÉVOLÂ" data-price="13" data-ingredients="Crème,tomates,chèvre,miel,persillade,basilic,poivre de Sichuan" style="border-top: 0.5px solid rgba(192,57,43,0.35); background:rgba(192,57,43,0.04); padding: 1rem 0.5rem; margin: 0 -0.5rem;">
-          <div style="flex:1;"><p class="pizza-name" style="color:var(--rouge);">⭐ U.RÉVOLÂ</p><p class="pizza-desc">Crème, tomates, chèvre, miel, persillade, basilic, poivre de Sichuan.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-        <div class="pizza-card" data-name="L'Indécise" data-price="15" data-ingredients="2 moitiés au choix">
-          <div style="flex:1;"><p class="pizza-name">L'Indécise</p><p class="pizza-desc">2 moitiés de pizza au choix parmi la carte.</p></div>
-          <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">15€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
-        </div>
-      </div>
-
+    <!-- TABS -->
+    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:2.5rem;" id="menuTabs">
+      <button class="menu-tab active" onclick="showTab('pizzas')">🍕 Pizzas</button>
+      <button class="menu-tab" onclick="showTab('pates')">🍝 Pâtes</button>
+      <button class="menu-tab" onclick="showTab('desserts')">🍮 Desserts</button>
+      <button class="menu-tab" onclick="showTab('salades')">🥗 Salades</button>
+      <button class="menu-tab" onclick="showTab('aperitifs')">🥂 Apéritifs</button>
+      <button class="menu-tab" onclick="showTab('bieres')">🍺 Bières</button>
+      <button class="menu-tab" onclick="showTab('sodas')">🥤 Sodas</button>
+      <button class="menu-tab" onclick="showTab('vins')">🍷 Vins</button>
+      <button class="menu-tab" onclick="showTab('digestifs')">🥃 Digestifs</button>
+      <button class="menu-tab" onclick="showTab('chaudes')">☕ Boissons chaudes</button>
     </div>
+
+    <!-- PIZZAS -->
+    <div class="menu-section" id="tab-pizzas">
+      <div class="grid md:grid-cols-2 gap-x-16">
+        <div>
+          <div class="pizza-card" data-name="Marguerite" data-price="9" data-ingredients="Sauce tomate,mozzarella,olives noires"><div style="flex:1;"><p class="pizza-name">Marguerite</p><p class="pizza-desc">Sauce tomate, mozzarella, olives noires.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">9€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Bambino" data-price="5" data-ingredients="Sauce tomate,mozzarella,jambon"><div style="flex:1;"><p class="pizza-name">Bambino</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">5€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Reines" data-price="12.5" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,origan"><div style="flex:1;"><p class="pizza-name">Reines</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, origan.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">12,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Prosciutto" data-price="12.5" data-ingredients="Sauce tomate,mozzarella,jambon blanc,jambon cru"><div style="flex:1;"><p class="pizza-name">Prosciutto</p><p class="pizza-desc">Sauce tomate, mozzarella, duo de jambon (blanc et cru).</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">12,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Royal" data-price="13" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,œuf"><div style="flex:1;"><p class="pizza-name">Royal</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Calzone" data-price="13" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,œuf"><div style="flex:1;"><p class="pizza-name">Calzone</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, œuf.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Napolitaine" data-price="13" data-ingredients="Sauce tomate,mozzarella,anchois,câpres,tomates du chef,olives noires"><div style="flex:1;"><p class="pizza-name">Napolitaine</p><p class="pizza-desc">Sauce tomate, mozzarella, anchois, câpres, tomates du chef, olives noires.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Bolo" data-price="13" data-ingredients="Sauce tomate,mozzarella,sauce bolognaise maison,persillade"><div style="flex:1;"><p class="pizza-name">Bolo</p><p class="pizza-desc">Sauce tomate, mozzarella, sauce bolognaise maison, persillade.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Rosa" data-price="13" data-ingredients="Sauce tomate,mozzarella,oignon rouge,romarin,pistaches"><div style="flex:1;"><p class="pizza-name">Rosa</p><p class="pizza-desc">Sauce tomate, mozzarella, oignon rouge, romarin, pistaches.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Espagnol" data-price="14" data-ingredients="Sauce tomate,mozzarella,chorizo fort,poivrons,olives,anchois,oignons"><div style="flex:1;"><p class="pizza-name">Espagnol</p><p class="pizza-desc">Sauce tomate, mozzarella, chorizo fort, poivrons, olives, anchois, oignons.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+        </div>
+        <div>
+          <div class="pizza-card" data-name="Forestière" data-price="14" data-ingredients="Crème aux cèpes,mozzarella,émincés de poulet,champignons,poivre 5 baies,persillade"><div style="flex:1;"><p class="pizza-name">Forestière</p><p class="pizza-desc">Crème aux cèpes, mozzarella, émincés de poulet, champignons, poivre 5 baies, persillade.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="4 Fromages" data-price="14" data-ingredients="Sauce tomate,mozzarella,chèvre,gorgonzola,reblochon,tomme"><div style="flex:1;"><p class="pizza-name">4 Fromages</p><p class="pizza-desc">Sauce tomate, mozzarella, chèvre, gorgonzola, reblochon, tomme.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="4 Saisons" data-price="14" data-ingredients="Sauce tomate,mozzarella,jambon,champignons,tomates,artichauts,poivrons,oignons"><div style="flex:1;"><p class="pizza-name">4 Saisons</p><p class="pizza-desc">Sauce tomate, mozzarella, jambon, champignons, tomates, artichauts, poivrons, oignons.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Hindi" data-price="14" data-ingredients="Crème épices indienne,mozzarella,poulet curry,oignons,poivrons"><div style="flex:1;"><p class="pizza-name">Hindi</p><p class="pizza-desc">Crème épices indienne, mozzarella, poulet curry, oignons, poivrons.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Orientale" data-price="14" data-ingredients="Sauce tomate,mozzarella,tomates,merguez,blanc de poulet,poivrons,oignons"><div style="flex:1;"><p class="pizza-name">Orientale</p><p class="pizza-desc">Sauce tomate, mozzarella, tomates, merguez, blanc de poulet, poivrons, oignons.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Jacquemarde" data-price="14" data-ingredients="Crème,mozzarella,lardons,pomme de terre,reblochon,oignons"><div style="flex:1;"><p class="pizza-name">Jacquemarde</p><p class="pizza-desc">Crème, mozzarella, lardons, pomme de terre, reblochon, oignons.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Voiron" data-price="14" data-ingredients="Sauce tomate,mozzarella,lardons,diots,oignons,tomme"><div style="flex:1;"><p class="pizza-name">Voiron</p><p class="pizza-desc">Sauce tomate, mozzarella, lardons, diots, oignons, tomme.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="Truite" data-price="14.5" data-ingredients="Crème à l'aneth,mozzarella,truite,tomates"><div style="flex:1;"><p class="pizza-name">Truite</p><p class="pizza-desc">Crème à l'aneth, mozzarella, truite, tomates.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">14,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="U.RÉVOLÂ" data-price="13" data-ingredients="Crème,tomates,chèvre,miel,persillade,basilic,poivre de Sichuan" style="border-top:0.5px solid rgba(192,57,43,0.35);background:rgba(192,57,43,0.04);padding:1rem 0.5rem;margin:0 -0.5rem;"><div style="flex:1;"><p class="pizza-name" style="color:var(--rouge);">⭐ U.RÉVOLÂ</p><p class="pizza-desc">Crème, tomates, chèvre, miel, persillade, basilic, poivre de Sichuan.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+          <div class="pizza-card" data-name="L'Indécise" data-price="15" data-ingredients="2 moitiés au choix"><div style="flex:1;"><p class="pizza-name">L'Indécise</p><p class="pizza-desc">2 moitiés de pizza au choix parmi la carte.</p></div><div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">15€</span><button class="add-btn" onclick="addToCart(this)">+</button></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATES -->
+    <div class="menu-section hidden" id="tab-pates">
+      <div class="pizza-card" data-name="Penné Gorgonzola" data-price="13.5" data-ingredients="Penné,crème fraîche,gorgonzola">
+        <div style="flex:1;"><p class="pizza-name">Penné Gorgonzola</p><p class="pizza-desc">Penné, crème fraîche, gorgonzola.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+      <div class="pizza-card" data-name="Penné Carbonara" data-price="13.5" data-ingredients="Penné,crème,oignons,lardons">
+        <div style="flex:1;"><p class="pizza-name">Penné Carbonara</p><p class="pizza-desc">Penné, crème, oignons, lardons.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+      <div class="pizza-card" data-name="Penné Bolognaise" data-price="13.5" data-ingredients="Penné,sauce tomate,viande de bœuf">
+        <div style="flex:1;"><p class="pizza-name">Penné Bolognaise</p><p class="pizza-desc">Penné, sauce tomate, viande de bœuf.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+      <div class="pizza-card" data-name="Penné Truite" data-price="13.5" data-ingredients="Penné,crème à l'aneth,truite">
+        <div style="flex:1;"><p class="pizza-name">Penné Truite</p><p class="pizza-desc">Penné, crème à l'aneth, truite.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">13,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+    </div>
+
+    <!-- DESSERTS -->
+    <div class="menu-section hidden" id="tab-desserts">
+      <div class="pizza-card" data-name="Tiramisu Maison" data-price="6" data-ingredients="Mascarpone,biscuits,café,cacao">
+        <div style="flex:1;"><p class="pizza-name">Tiramisu Maison</p><p class="pizza-desc">Fait maison.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">6€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+      <div class="pizza-card" data-name="Fondant Chocolat" data-price="5.5" data-ingredients="Fondant chocolat,crème anglaise">
+        <div style="flex:1;"><p class="pizza-name">Fondant Chocolat</p><p class="pizza-desc">Crème anglaise.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">5,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+      <div class="pizza-card" data-name="Nougat Glacé Framboise" data-price="5.5" data-ingredients="Nougat glacé,framboise,éclat de pistache">
+        <div style="flex:1;"><p class="pizza-name">Nougat Glacé Framboise</p><p class="pizza-desc">Éclat de pistache.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">5,50€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+    </div>
+
+    <!-- SALADES -->
+    <div class="menu-section hidden" id="tab-salades">
+      <div class="pizza-card" data-name="Salade Composée" data-price="12" data-ingredients="Salade,tomate,œufs,champignons,jambon,gruyère,croutons,vinaigrette">
+        <div style="flex:1;"><p class="pizza-name">Salade Composée</p><p class="pizza-desc">Salade, tomate, œufs, champignons, jambon, gruyère, croutons, vinaigrette.</p></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-shrink:0;"><span class="pizza-price">12€</span><button class="add-btn" onclick="addToCart(this)">+</button></div>
+      </div>
+    </div>
+
+    <!-- APERITIFS -->
+    <div class="menu-section hidden" id="tab-aperitifs">
+      <div class="menu-simple-card"><span class="pizza-name">Kir</span><span class="pizza-price">3€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Martini Blanc</span><span class="pizza-price">3€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Ricard</span><span class="pizza-price">4€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Whisky</span><span class="pizza-price">4€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Whisky Coca</span><span class="pizza-price">5,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Américano</span><span class="pizza-price">4€</span></div>
+    </div>
+
+    <!-- BIERES -->
+    <div class="menu-section hidden" id="tab-bieres">
+      <div class="menu-simple-card"><div><span class="pizza-name">Desperados</span><p class="pizza-desc">33cl</p></div><span class="pizza-price">3,50€</span></div>
+      <div class="menu-simple-card"><div><span class="pizza-name">Leffe</span><p class="pizza-desc">33cl</p></div><span class="pizza-price">3,50€</span></div>
+      <div class="menu-simple-card"><div><span class="pizza-name">Heineken</span><p class="pizza-desc">25cl</p></div><span class="pizza-price">3€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Monaco</span><span class="pizza-price">4,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Panaché</span><span class="pizza-price">4€</span></div>
+    </div>
+
+    <!-- SODAS -->
+    <div class="menu-section hidden" id="tab-sodas">
+      <div class="menu-simple-card"><span class="pizza-name">Ice-Tea</span><span class="pizza-price">2,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Limonade</span><span class="pizza-price">2,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Coca-Cola</span><span class="pizza-price">2,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Orangina</span><span class="pizza-price">2,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Oasis</span><span class="pizza-price">2,50€</span></div>
+      <div class="menu-simple-card"><div><span class="pizza-name">San Pellegrino</span><p class="pizza-desc">Petite ou grande</p></div><span class="pizza-price">2,50€</span></div>
+    </div>
+
+    <!-- VINS -->
+    <div class="menu-section hidden" id="tab-vins">
+      <div class="menu-simple-card"><div><span class="pizza-name">Rouge</span><p class="pizza-desc">Bouteille 75cl</p></div><span class="pizza-price">14€</span></div>
+      <div class="menu-simple-card"><div><span class="pizza-name">Rosé</span><p class="pizza-desc">Bouteille 75cl</p></div><span class="pizza-price">12€</span></div>
+      <div class="menu-simple-card"><div><span class="pizza-name">Demi-pichet</span><p class="pizza-desc">Blanc, rouge ou rosé</p></div><span class="pizza-price">7€</span></div>
+      <div class="menu-simple-card"><div><span class="pizza-name">Quart de pichet</span><p class="pizza-desc">Blanc, rouge ou rosé</p></div><span class="pizza-price">4€</span></div>
+      <div class="menu-simple-card"><div><span class="pizza-name">Verre</span><p class="pizza-desc">Blanc, rouge ou rosé</p></div><span class="pizza-price">2,50€</span></div>
+    </div>
+
+    <!-- DIGESTIFS -->
+    <div class="menu-section hidden" id="tab-digestifs">
+      <div class="menu-simple-card"><span class="pizza-name">Get 27</span><span class="pizza-price">5€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Calva</span><span class="pizza-price">5€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Limoncello</span><span class="pizza-price">5€</span></div>
+    </div>
+
+    <!-- BOISSONS CHAUDES -->
+    <div class="menu-section hidden" id="tab-chaudes">
+      <div class="menu-simple-card"><span class="pizza-name">Café</span><span class="pizza-price">1,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Thé</span><span class="pizza-price">1,50€</span></div>
+      <div class="menu-simple-card"><span class="pizza-name">Irish Coffee</span><span class="pizza-price">6€</span></div>
+    </div>
+
   </div>
 </section>
+
+<!-- CARTE SECTION -->
 
 <!-- EXTRAS & INFOS -->
 <section id="extras" class="section-light px-6 pb-16" style="margin-top:2rem;">
@@ -1068,7 +1152,7 @@ tailwind.config = {
 
 <!-- BOUTON FLOTTANT PANIER -->
 <button class="cart-fab" id="cartFab" onclick="openCart()">
-  🛒 Ma commande
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Ma commande
   <span class="cart-badge" id="cartBadge">0</span>
 </button>
 
@@ -1077,7 +1161,7 @@ tailwind.config = {
   <div class="cart-overlay" onclick="closeCart()"></div>
   <div class="cart-panel">
     <div class="cart-header">
-      <h3>🛒 Ma commande</h3>
+      <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>Ma commande</h3>
       <button class="cart-close" onclick="closeCart()">✕</button>
     </div>
     <div class="cart-items" id="cartItems">
@@ -1089,7 +1173,7 @@ tailwind.config = {
         <span class="cart-total-price" id="cartTotal">0€</span>
       </div>
       <button class="btn-commander" onclick="openRecap()">
-        📋 Voir le récapitulatif →
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Voir le récapitulatif
       </button>
     </div>
   </div>
@@ -1098,7 +1182,7 @@ tailwind.config = {
 <!-- ÉCRAN RÉCAP COMMANDE -->
 <div class="recap-screen" id="recapScreen">
   <div class="recap-header">
-    <h3>📋 Récapitulatif de commande</h3>
+    <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:6px;"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Récapitulatif de commande</h3>
     <button onclick="closeRecap()" style="background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;line-height:1;">✕</button>
   </div>
   <div class="recap-body">
@@ -1114,7 +1198,7 @@ tailwind.config = {
   </div>
   <div class="recap-footer">
     <a href="tel:0955589926" class="btn-call">
-      📞 Appeler le 09 55 58 99 26
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.18 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 5.55 5.55l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Appeler le 09 55 58 99 26
     </a>
     <button class="btn-back-cart" onclick="closeRecap()">← Modifier ma commande</button>
   </div>
@@ -1130,13 +1214,31 @@ tailwind.config = {
     <p style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(250,250,245,0.3);">
       © 2026 U.Révolâ · Pizzeria Artisanale · Sallanches
     </p>
-    <p style="font-size:0.65rem; letter-spacing:0.1em; color:rgba(250,250,245,0.15);">
-      Site par Studio Agence
+    <p style="font-size:0.65rem; letter-spacing:0.1em; color:rgba(250,250,245,0.3);">
+      Site créé par <a href="https://db-digital.netlify.app/" target="_blank" style="color:#C8A96E; text-decoration:none; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">DB Artisan Digital</a>
     </p>
   </div>
 </footer>
 
 <script>
+  // ── MENU TABS ──
+  function showTab(id) {
+    document.querySelectorAll('.menu-section').forEach(s => s.classList.add('hidden'));
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    const section = document.getElementById('tab-' + id);
+    section.classList.remove('hidden');
+    event.currentTarget.classList.add('active');
+    section.querySelectorAll('.pizza-card').forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(16px)';
+      setTimeout(() => {
+        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, i * 60);
+    });
+  }
+
   // ── PANIER ──
   let cart = []; // [{id, name, price, ingredients: [{name, removed}], qty}]
 
@@ -1286,19 +1388,33 @@ tailwind.config = {
   }, { threshold: 0.15 });
 
   document.querySelectorAll('.pizza-card, .glass-card, .signature-card').forEach(el => {
+    if (el.closest('.menu-section.hidden')) return;
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
     observer.observe(el);
   });
 
-  // Hero parallax
+  // Back to top
   window.addEventListener('scroll', () => {
-    const hero = document.querySelector('.hero-bg');
-    if (hero) {
-      const scrollY = window.scrollY;
-      hero.style.transform = `scale(1.05) translateY(${scrollY * 0.2}px)`;
-    }
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) backToTop.style.display = window.scrollY > 200 ? 'flex' : 'none';
   });
+
 </script>
+<!-- BACK TO TOP -->
+<button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="
+  position:fixed; bottom:2rem; left:2rem; z-index:200;
+  width:48px; height:48px; border-radius:50%;
+  background:var(--rouge); border:none;
+  color:#fff; font-size:1.1rem;
+  cursor:pointer; display:none; align-items:center; justify-content:center;
+  box-shadow: 0 4px 20px rgba(192,57,43,0.35);
+  transition: all 0.3s;
+" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 28px rgba(192,57,43,0.45)'"
+   onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 20px rgba(192,57,43,0.35)'">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
 </body>
 </html>
